@@ -7,7 +7,8 @@ export default function Root() {
     <>
       <div className="grid grid-cols-3 gap-[2vw]">
         <div className="col-span-2">
-          <ul>
+          <h1>Desserts</h1>
+          <ul className="grid grid-cols-3 gap-5">
             {products.map((item) => (
               <ProducShelf item={item} />
             ))}

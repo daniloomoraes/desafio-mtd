@@ -69,9 +69,9 @@ function ProductShelf({ item }) {
   };
 
   return (
-    <li key={item.name}>
-      {/* <img src={item.image.mobile} alt={item.name} />
-      <img src={item.image.desktop} alt={item.name} /> */}
+    <li key={item.name} className="col-span-1">
+      <img src={item.image.mobile} alt={item.name} className="hidden w-full" />
+      <img src={item.image.desktop} alt={item.name} className="block w-full" />
       <div
         onClick={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
