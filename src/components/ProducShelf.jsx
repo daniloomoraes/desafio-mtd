@@ -1,16 +1,18 @@
 import { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
 
 function ProductShelf({ item }) {
   const [isHovered, setIsHovered] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [cookies, setCookie] = useCookies(["myCart"]);
 
   useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem("myCart")) || [];
+    const storedCart = cookies.myCart || [];
     const cartItem = storedCart.find((cartItem) => cartItem.name === item.name);
     if (cartItem) {
       setQuantity(cartItem.quantity);
     }
-  }, [item.name]);
+  }, [cookies.myCart, item.name]);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -20,8 +22,8 @@ function ProductShelf({ item }) {
     setIsHovered(false);
   };
 
-  const updateLocalStorage = (newQuantity) => {
-    let myCart = JSON.parse(localStorage.getItem("myCart")) || [];
+  const updateCookies = (newQuantity) => {
+    let myCart = cookies.myCart || [];
 
     if (newQuantity === 0) {
       myCart = myCart.filter((cartItem) => cartItem.name !== item.name);
@@ -35,34 +37,35 @@ function ProductShelf({ item }) {
         myCart.push({ ...item, quantity: newQuantity });
       }
     }
-    localStorage.setItem("myCart", JSON.stringify(myCart));
+
+    setCookie("myCart", myCart, { path: "/" });
   };
 
   const increaseQuantity = () => {
     const newQuantity = quantity + 1;
     setQuantity(newQuantity);
-    updateLocalStorage(newQuantity);
+    updateCookies(newQuantity);
   };
 
   const decreaseQuantity = () => {
     if (quantity > 1) {
       const newQuantity = quantity - 1;
       setQuantity(newQuantity);
-      updateLocalStorage(newQuantity);
+      updateCookies(newQuantity);
     } else {
       setQuantity(0);
-      updateLocalStorage(0);
+      updateCookies(0);
     }
   };
 
   const handleQuantityChange = (e) => {
     const newQuantity = Number(e.target.value);
     setQuantity(newQuantity);
-    updateLocalStorage(newQuantity);
+    updateCookies(newQuantity);
   };
 
   const addToCart = () => {
-    updateLocalStorage(quantity);
+    updateCookies(quantity);
   };
 
   return (
