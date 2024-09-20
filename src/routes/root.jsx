@@ -15,8 +15,8 @@ export default function Root() {
               ))}
             </ul>
           </div>
-          <div className="col-span-1">
-            <div>
+          <div className="col-span-1 mt-5 md:mt-0">
+            <div className="p-5 md:p-5 bg-white rounded-md">
               <MiniCart />
             </div>
           </div>

@@ -35,35 +35,68 @@ function MiniCart() {
   };
 
   const calculateTotal = () => {
-    return cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2);
+    return cartItems
+      .reduce((acc, item) => acc + item.price * item.quantity, 0)
+      .toFixed(2);
   };
-  
+
   return (
     <>
-      <h2>Your Cart ({cartItems.length})</h2>
+      <h2 className="text-2xl text-[#C83B0E] font-bold mb-3">
+        Your Cart ({cartItems.length})
+      </h2>
       <div>
         {cartItems.length > 0 ? (
           <>
-            <ul>
+            <ul className="flex flex-col gap-4">
               {cartItems.map((item, index) => (
-                <li key={index} className="relative">
+                <li
+                  key={index}
+                  className="relative border-b-slate-100 border-b-2 pb-3"
+                >
                   <button
-                    className="absolute top-2 right-2"
+                    className="absolute top-2 right-2 border-2 border-slate-400 rounded-2xl w-[20px] h-[20px] flex justify-center items-center"
                     onClick={() => handleDelete(item.name)}
                   >
-                    Delete
+                    <img
+                      src="/assets/images/icon-remove-item.svg"
+                      alt="remove item"
+                    />
                   </button>
-                  <p>{item.name}</p>
+                  <p className="font-bold">{item.name}</p>
                   <p>
-                    {item.quantity}x - {item.price.toFixed(2)} -{" "}
-                    {(item.quantity * item.price).toFixed(2)}
+                    <span className="text-[#C83B0E] font-bold">
+                      {item.quantity}x {"  "}
+                    </span>
+                    <span className="text-slate-500">
+                      {"  "}@ {item.price.toFixed(2)} {"  "}
+                    </span>
+                    <span className="text-slate-500 font-bold">
+                      {(item.quantity * item.price).toFixed(2)}
+                    </span>
                   </p>
-                  <hr />
                 </li>
               ))}
             </ul>
-            <p>This is a carbon-neutral delivery</p>
-            <button onClick={handleConfirmOrder}>Confirm Order</button>
+            <p className="flex justify-between items-center py-6">
+              <p>Order Total</p>
+              <p className="text-2xl text-black font-bold">
+                ${calculateTotal()}
+              </p>
+            </p>
+            <p className="w-full bg-[#FCF8F5] rounded-md flex items-center justify-center py-2 mb-5">
+              <img
+                src="/assets/images/icon-carbon-neutral.svg"
+                alt="carbon neutral"
+              />
+              This is a <span className="font-bold">carbon-neutral</span> delivery
+            </p>
+            <button
+              className="border-2 border-[#C83B0E] rounded-3xl flex items-center font-bold justify-center gap-3 py-2 w-full text-white bg-[#C83B0E]"
+              onClick={handleConfirmOrder}
+            >
+              Confirm Order
+            </button>
           </>
         ) : (
           <p>Your added items will appear here</p>
